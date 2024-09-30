@@ -105,7 +105,7 @@ def learning(user_data, difficulty):
     print(f"Du lernst jetzt Aufgaben der {klasse}. Klasse mit dem Schwierigkeitsgrad: {difficulty}\n")
 
     print('Löse 5 Aufgaben in jeder Kategorie: Addition, Subtraktion, Multiplikation, Division.')
-    print('Du hast 5 Leben. Bei null verlierst du. Wenn du 5 richtige Antworten in einer Kategorie hast, bekommst du eine Münze!\n')
+    print('Du hast 5 Leben. Bei null verlierst du. Für jede richtige antwort bekommst du eine Münze!\n')
     lives = 5
 
     for _ in range(5):
