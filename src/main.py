@@ -1,8 +1,11 @@
 import os
 import time
+import random
 
 # Hauptfunktion
 def main():
+
+    clear_console()
 
     print('Willkommen!')
     print()
@@ -39,6 +42,7 @@ def main():
             main()
 
 def menu(klasse):
+
     print('Was möchtest du tun?')
     print()
     print('1. Lernen')
@@ -51,13 +55,37 @@ def menu(klasse):
     if choice == '1':
         learning(klasse)
     elif choice == '2':
-        
+        games(coins)
+    elif choice == '3':
+        change_class(klasse)
+    elif choice == '4':
+        save(Klasse, coins)
+        quit()
 
 def learning(klasse):
-    print(f"Du bist in der {klasse}. Klasse")
+
+    print(f"Du lernst jetzt Aufgaben der {klasse}. Klasse")
+    print()
+
+    if klasse == '3':
+        print('Hier musst du gleich fünf aufgaben von jeder art lösen also Plus minus mal geteilt')
+        print('Du hast 5 leben bei null verlierst du alles. wenn du alle 5 aufgaben eines themas richtig hast bekommst du eine münze!')
+
+        lives = 5
+
+        for i in range(5):
+            zahl_1 = random.randint(1, 500)
+            zahl_2 = random.randint(1,500)
+            result = zahl_1 + zahl_2
+            print
+
+
+
+
 
 # Konsole leeren je nach Betriebssystem
 def clear_console():
+
     if os.name == 'nt':
         os.system('cls')
     else:
