@@ -54,6 +54,7 @@ def confirm_class(klasse, user_data):
 
 # Menü anzeigen
 def menu(user_data):
+    clear_console()
     print(f'Was möchtest du tun? (Münzen: {user_data["coins"]})\n')
     print('1. Lernen')
     print('2. Spielen')
@@ -63,24 +64,45 @@ def menu(user_data):
     choice = input()
 
     if choice == '1':
-        learning(user_data)
+        choose_difficulty(user_data)
     elif choice == '2':
         games()
     elif choice == '3':
         main()  # Zurück zur Klassenauswahl
     elif choice == '4':
         save_data(user_data)
+        clear_console()
         quit()
     else:
         print('Ungültige Auswahl. Bitte versuche es erneut.')
         time.sleep(1)
         menu(user_data)
 
-# Lernmodus basierend auf der Klasse
-def learning(user_data):
+# Schwierigkeitsgrad auswählen
+def choose_difficulty(user_data):
+    clear_console()
+    print('Wähle den Schwierigkeitsgrad:\n')
+    print('1. Leicht')
+    print('2. Normal')
+    print('3. Schwer')
+
+    choice = input()
+    if choice == '1':
+        learning(user_data, 'leicht')
+    elif choice == '2':
+        learning(user_data, 'normal')
+    elif choice == '3':
+        learning(user_data, 'schwer')
+    else:
+        print('Ungültige Auswahl. Bitte versuche es erneut.')
+        time.sleep(1)
+        choose_difficulty(user_data)
+
+# Lernmodus basierend auf der Klasse und dem Schwierigkeitsgrad
+def learning(user_data, difficulty):
     clear_console()
     klasse = user_data['klasse']
-    print(f"Du lernst jetzt Aufgaben der {klasse}. Klasse\n")
+    print(f"Du lernst jetzt Aufgaben der {klasse}. Klasse mit dem Schwierigkeitsgrad: {difficulty}\n")
 
     print('Löse 5 Aufgaben in jeder Kategorie: Addition, Subtraktion, Multiplikation, Division.')
     print('Du hast 5 Leben. Bei null verlierst du. Wenn du 5 richtige Antworten in einer Kategorie hast, bekommst du eine Münze!\n')
@@ -90,23 +112,38 @@ def learning(user_data):
         if lives == 0:
             print('Du hast verloren.')
             break
-        lives, user_data['coins'] = math_problems(lives, user_data['coins'], klasse)
+        lives, user_data['coins'] = math_problems(lives, user_data['coins'], klasse, difficulty)
     
     print(f'Du hast {user_data["coins"]} Münzen gesammelt.')
     time.sleep(2)
     menu(user_data)
 
-# Mathematikaufgaben generieren
-def math_problems(lives, coins, klasse):
+# Mathematikaufgaben generieren mit verschiedenen Schwierigkeitsgraden
+def math_problems(lives, coins, klasse, difficulty):
+    clear_console()
     operations = ['+', '-', '*', '/']
     operation = random.choice(operations)
 
     if klasse == 3:
-        zahl_1 = random.randint(1, 20)
-        zahl_2 = random.randint(1, 20)
+        if difficulty == 'leicht':
+            zahl_1 = random.randint(1, 10)
+            zahl_2 = random.randint(1, 10)
+        elif difficulty == 'normal':
+            zahl_1 = random.randint(10, 50)
+            zahl_2 = random.randint(1, 50)
+        else:
+            zahl_1 = random.randint(50, 100)
+            zahl_2 = random.randint(10, 50)
     else:
-        zahl_1 = random.randint(10, 100)
-        zahl_2 = random.randint(1, 10)
+        if difficulty == 'leicht':
+            zahl_1 = random.randint(10, 50)
+            zahl_2 = random.randint(1, 10)
+        elif difficulty == 'normal':
+            zahl_1 = random.randint(50, 100)
+            zahl_2 = random.randint(1, 50)
+        else:
+            zahl_1 = random.randint(100, 500)
+            zahl_2 = random.randint(10, 100)
 
     if operation == '+':
         result = zahl_1 + zahl_2
@@ -118,7 +155,6 @@ def math_problems(lives, coins, klasse):
         result = zahl_1 * zahl_2
         print(f'{zahl_1} * {zahl_2} = ?')
     elif operation == '/':
-        # Division soll immer ganzzahlig sein
         zahl_1 = zahl_1 * zahl_2
         result = zahl_1 // zahl_2
         print(f'{zahl_1} / {zahl_2} = ?')
@@ -136,6 +172,7 @@ def math_problems(lives, coins, klasse):
 
 # Spielmodul (Platzhalter)
 def games():
+    clear_console()
     print("Spielmodul ist noch in Arbeit...")
     time.sleep(2)
     main()
