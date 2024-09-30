@@ -175,7 +175,7 @@ def games():
     clear_console()
     print("Spielmodul ist noch in Arbeit...")
     time.sleep(2)
-    main()
+    menu()
 
 # Konsole leeren je nach Betriebssystem
 def clear_console():
