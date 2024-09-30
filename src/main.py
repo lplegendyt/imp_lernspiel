@@ -170,10 +170,10 @@ def math_problems(lives, coins, klasse, difficulty):
     
     return lives, coins
 
-# Spielmodul (Platzhalter)
+# Spielmodus
 def games():
     clear_console()
-    print("Spielmodul ist noch in Arbeit...")
+    print("Spielmodus ist noch in Arbeit...")
     time.sleep(2)
     menu()
 
