@@ -5,20 +5,17 @@ import json
 
 DATA_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'user_data.json')
 
-# Daten laden
 def load_data():
     if os.path.exists(DATA_PATH):
         with open(DATA_PATH, 'r') as file:
             return json.load(file)
     return {"klasse": 3, "coins": 0}
 
-# Daten speichern
 def save_data(data):
     os.makedirs(os.path.dirname(DATA_PATH), exist_ok=True)
     with open(DATA_PATH, 'w') as file:
         json.dump(data, file)
 
-# Hauptfunktion
 def main():
     user_data = load_data()
     clear_console()
@@ -39,7 +36,6 @@ def main():
         time.sleep(1)
         main()
 
-# Klasse bestätigen und Menü starten
 def confirm_class(klasse, user_data):
     print(f'Du bist in der {klasse}. Klasse (ja/nein)?')
     confirmation = input().lower()
@@ -52,7 +48,6 @@ def confirm_class(klasse, user_data):
     else:
         main()
 
-# Menü anzeigen
 def menu(user_data):
     clear_console()
     print(f'Was möchtest du tun? (Münzen: {user_data["coins"]})\n')
@@ -66,9 +61,9 @@ def menu(user_data):
     if choice == '1':
         choose_difficulty(user_data)
     elif choice == '2':
-        games()
+        games(user_data)
     elif choice == '3':
-        main()  # Zurück zur Klassenauswahl
+        main()
     elif choice == '4':
         save_data(user_data)
         clear_console()
@@ -78,7 +73,6 @@ def menu(user_data):
         time.sleep(1)
         menu(user_data)
 
-# Schwierigkeitsgrad auswählen
 def choose_difficulty(user_data):
     clear_console()
     print('Wähle den Schwierigkeitsgrad:\n')
@@ -98,14 +92,13 @@ def choose_difficulty(user_data):
         time.sleep(1)
         choose_difficulty(user_data)
 
-# Lernmodus basierend auf der Klasse und dem Schwierigkeitsgrad
 def learning(user_data, difficulty):
     clear_console()
     klasse = user_data['klasse']
     print(f"Du lernst jetzt Aufgaben der {klasse}. Klasse mit dem Schwierigkeitsgrad: {difficulty}\n")
 
     print('Löse 5 Aufgaben in jeder Kategorie: Addition, Subtraktion, Multiplikation, Division.')
-    print('Du hast 5 Leben. Bei null verlierst du. Für jede richtige antwort bekommst du eine Münze!\n')
+    print('Du hast 5 Leben. Bei null verlierst du. Für jede richtige Antwort bekommst du eine Münze!\n')
     lives = 5
 
     for _ in range(5):
@@ -118,7 +111,6 @@ def learning(user_data, difficulty):
     time.sleep(2)
     menu(user_data)
 
-# Mathematikaufgaben generieren mit verschiedenen Schwierigkeitsgraden
 def math_problems(lives, coins, klasse, difficulty):
     clear_console()
     operations = ['+', '-', '*', '/']
@@ -170,19 +162,131 @@ def math_problems(lives, coins, klasse, difficulty):
     
     return lives, coins
 
-# Spielmodus
-def games():
+def games(user_data):
     clear_console()
-    print("Spielmodus ist noch in Arbeit...")
-    time.sleep(2)
-    menu()
-
-# Konsole leeren je nach Betriebssystem
-def clear_console():
-    if os.name == 'nt':
-        os.system('cls')
+    if user_data['coins'] < 5:
+        print('Nicht genug Münzen, um zu spielen.')
+        menu(user_data)
     else:
-        os.system('clear')
+        print('Was möchtest du spielen?')
+        print('1. Tic Tac Toe')
+        print('2. Noch ein Spiel')
+        print('3. Zurück')
+
+        choice = input()
+        print()
+
+        if choice == '1':
+            print('Viel Spaß!')
+            user_data['coins'] -= 5
+            clear_console()
+            print(f'Du hast jetzt noch {user_data["coins"]} Münzen!')
+            time.sleep(2)
+            game_1(user_data)
+        
+        elif choice == '2':
+            print('Viel Spaß!')
+            user_data['coins'] -= 5
+            clear_console()
+            print(f'Du hast jetzt noch {user_data["coins"]} Münzen!')
+            time.sleep(2)
+            game_2(user_data)
+
+        elif choice == '3':
+            clear_console()
+            menu(user_data)
+        
+        else:
+            print('Ungültige Eingabe.')
+            time.sleep(1)
+            games(user_data)
+
+def game_1(user_data):
+    board = [' ' for _ in range(9)]
+    player = 'X'
+    bot = 'O'
+
+    def print_board():
+        print(f"{board[0]} | {board[1]} | {board[2]}")
+        print("--+---+--")
+        print(f"{board[3]} | {board[4]} | {board[5]}")
+        print("--+---+--")
+        print(f"{board[6]} | {board[7]} | {board[8]}")
+
+    def check_winner():
+        winning_combinations = [
+            (0, 1, 2), (3, 4, 5), (6, 7, 8),
+            (0, 3, 6), (1, 4, 7), (2, 5, 8),
+            (0, 4, 8), (2, 4, 6)
+        ]
+        for combo in winning_combinations:
+            if board[combo[0]] == board[combo[1]] == board[combo[2]] != ' ':
+                return board[combo[0]]
+        return None
+
+    def is_draw():
+        return ' ' not in board
+
+    print("Willkommen zu Tic-Tac-Toe!")
+    print("Du spielst als 'X' und der Bot spielt als 'O'.")
+    print("Gib die Position (0-8) ein, um deinen Zug zu machen.")
+    print_board()
+
+    while True:
+        while True:
+            try:
+                move = int(input("Gib deine Zugposition (0-8) ein: "))
+                if board[move] == ' ':
+                    board[move] = player
+                    break
+                else:
+                    print("Diese Position ist bereits belegt. Wähle eine andere.")
+            except (ValueError, IndexError):
+                print("Ungültige Eingabe. Bitte gib eine Zahl zwischen 0 und 8 ein.")
+
+        print_board()
+
+        if (winner := check_winner()) is not None:
+            print(f"Glückwunsch! {winner} hat gewonnen!")
+            time.sleep(2)
+            menu(user_data)
+            break
+        if is_draw():
+            print("Das Spiel endet unentschieden!")
+            time.sleep(2)
+            menu(user_data)
+            break
+
+        while True:
+            bot_move = random.randint(0, 8)
+            if board[bot_move] == ' ':
+                board[bot_move] = bot
+                break
+
+        print("Der Bot hat seinen Zug gemacht:")
+        print_board()
+
+        if (winner := check_winner()) is not None:
+            print(f"Der Bot hat gewonnen! {winner} gewinnt.")
+            time.sleep(2)
+            menu(user_data)
+            break
+        if is_draw():
+            print("Das Spiel endet unentschieden!")
+            time.sleep(2)
+            menu(user_data)
+            break
+
+    # Warte 2 Sekunden und gehe zurück zum Menü
+    time.sleep(2)
+    menu(user_data)
+
+def game_2(user_data):
+    print("Dies ist ein weiteres Spiel!")
+    # Hier kann der Code für ein weiteres Spiel eingefügt werden.
+
+def clear_console():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 if __name__ == "__main__":
     main()
