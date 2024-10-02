@@ -185,12 +185,10 @@ def games(user_data):
             game_1(user_data)
         
         elif choice == '2':
-            print('Viel Spaß!')
-            user_data['coins'] -= 5
             clear_console()
-            print(f'Du hast jetzt noch {user_data["coins"]} Münzen!')
-            time.sleep(2)
-            game_2(user_data)
+            print('Spiel ist noch in Arbeit...')
+            time.sleep(3)
+            menu(user_data)
 
         elif choice == '3':
             clear_console()
@@ -280,13 +278,8 @@ def game_1(user_data):
             menu(user_data)
             break
 
-    # Warte 2 Sekunden und gehe zurück zum Menü
     time.sleep(2)
     menu(user_data)
-
-def game_2(user_data):
-    print("Dies ist ein weiteres Spiel!")
-    # Hier kann der Code für ein weiteres Spiel eingefügt werden.
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
