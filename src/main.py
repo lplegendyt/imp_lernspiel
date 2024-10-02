@@ -230,6 +230,9 @@ def game_1(user_data):
     print("Willkommen zu Tic-Tac-Toe!")
     print("Du spielst als 'X' und der Bot spielt als 'O'.")
     print("Gib die Position (0-8) ein, um deinen Zug zu machen.")
+    time.sleep(5)
+    clear_console()
+
     print_board()
 
     while True:
