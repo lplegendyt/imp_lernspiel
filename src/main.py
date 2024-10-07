@@ -20,29 +20,29 @@ def main():
     user_data = load_data()
     clear_console()
 
-    print(f'Willkommen! Deine aktuelle Klasse ist {user_data["klasse"]} und du hast {user_data["coins"]} Münzen.')
-    print('\nIn welcher Klasse bist du?\n')
-    print('1. Klasse 3')
-    print('2. Klasse 4')
+    print(f"Willkommen! Deine aktuelle Klasse ist {user_data['klasse']} und du hast {user_data['coins']} Münzen.")
+    print("\nIn welcher Klasse bist du?\n")
+    print("1. Klasse 3")
+    print("2. Klasse 4")
 
     choice = input()
 
-    if choice == '1':
+    if choice == "1":
         confirm_class(3, user_data)
-    elif choice == '2':
+    elif choice == "2":
         confirm_class(4, user_data)
     else:
-        print('Ungültige Auswahl. Bitte versuche es erneut.')
+        print("Ungültige Auswahl. Bitte versuche es erneut.")
         time.sleep(1)
         main()
 
 def confirm_class(klasse, user_data):
-    print(f'Du bist in der {klasse}. Klasse (ja/nein)?')
+    print(f"Du bist in der {klasse}. Klasse (ja/nein)?")
     confirmation = input().lower()
 
-    if confirmation in ['j', 'ja']:
-        user_data['klasse'] = klasse
-        print('Super, fangen wir an!')
+    if confirmation in ["j", "ja"]:
+        user_data["klasse"] = klasse
+        print("Super, fangen wir an!")
         clear_console()
         menu(user_data)
     else:
@@ -50,45 +50,45 @@ def confirm_class(klasse, user_data):
 
 def menu(user_data):
     clear_console()
-    print(f'Was möchtest du tun? (Münzen: {user_data["coins"]})\n')
-    print('1. Lernen')
-    print('2. Spielen')
-    print('3. Klasse ändern')
-    print('4. Beenden')
+    print(f"Was möchtest du tun? (Münzen: {user_data['coins']})\n")
+    print("1. Lernen")
+    print("2. Spielen")
+    print("3. Klasse ändern")
+    print("4. Beenden")
 
     choice = input()
 
-    if choice == '1':
+    if choice == "1":
         choose_difficulty(user_data)
-    elif choice == '2':
+    elif choice == "2":
         games(user_data)
-    elif choice == '3':
+    elif choice == "3":
         main()
-    elif choice == '4':
+    elif choice == "4":
         save_data(user_data)
         clear_console()
         quit()
     else:
-        print('Ungültige Auswahl. Bitte versuche es erneut.')
+        print("Ungültige Auswahl. Bitte versuche es erneut.")
         time.sleep(1)
         menu(user_data)
 
 def choose_difficulty(user_data):
     clear_console()
-    print('Wähle den Schwierigkeitsgrad:\n')
-    print('1. Leicht')
-    print('2. Normal')
-    print('3. Schwer')
+    print("Wähle den Schwierigkeitsgrad:\n")
+    print("1. Leicht")
+    print("2. Normal")
+    print("3. Schwer")
 
     choice = input()
-    if choice == '1':
-        learning(user_data, 'leicht')
-    elif choice == '2':
-        learning(user_data, 'normal')
-    elif choice == '3':
-        learning(user_data, 'schwer')
+    if choice == "1":
+        learning(user_data, "leicht")
+    elif choice == "2":
+        learning(user_data, "normal")
+    elif choice == "3":
+        learning(user_data, "schwer")
     else:
-        print('Ungültige Auswahl. Bitte versuche es erneut.')
+        print("Ungültige Auswahl. Bitte versuche es erneut.")
         time.sleep(1)
         choose_difficulty(user_data)
 
@@ -97,17 +97,17 @@ def learning(user_data, difficulty):
     klasse = user_data['klasse']
     print(f"Du lernst jetzt Aufgaben der {klasse}. Klasse mit dem Schwierigkeitsgrad: {difficulty}\n")
 
-    print('Löse 5 Aufgaben in jeder Kategorie: Addition, Subtraktion, Multiplikation, Division.')
-    print('Du hast 5 Leben. Bei null verlierst du. Für jede richtige Antwort bekommst du eine Münze!\n')
+    print("Löse 5 Aufgaben in jeder Kategorie: Addition, Subtraktion, Multiplikation, Division.")
+    print("Du hast 5 Leben. Bei null verlierst du. Für jede richtige Antwort bekommst du eine Münze!\n")
     lives = 5
 
     for _ in range(5):
         if lives == 0:
-            print('Du hast verloren.')
+            print("Du hast verloren.")
             break
         lives, user_data['coins'] = math_problems(lives, user_data['coins'], klasse, difficulty)
     
-    print(f'Du hast {user_data["coins"]} Münzen gesammelt.')
+    print(f"Du hast {user_data['coins']} Münzen gesammelt.")
     time.sleep(2)
     menu(user_data)
 
@@ -139,25 +139,25 @@ def math_problems(lives, coins, klasse, difficulty):
 
     if operation == '+':
         result = zahl_1 + zahl_2
-        print(f'{zahl_1} + {zahl_2} = ?')
+        print(f"{zahl_1} + {zahl_2} = ?")
     elif operation == '-':
         result = zahl_1 - zahl_2
-        print(f'{zahl_1} - {zahl_2} = ?')
+        print(f"{zahl_1} - {zahl_2} = ?")
     elif operation == '*':
         result = zahl_1 * zahl_2
-        print(f'{zahl_1} * {zahl_2} = ?')
+        print(f"{zahl_1} * {zahl_2} = ?")
     elif operation == '/':
         zahl_1 = zahl_1 * zahl_2
         result = zahl_1 // zahl_2
-        print(f'{zahl_1} / {zahl_2} = ?')
+        print(f"{zahl_1} / {zahl_2} = ?")
 
     answer = input()
 
     if answer.isdigit() and int(answer) == result:
-        print('Richtig!')
+        print("Richtig!")
         coins += 1
     else:
-        print(f'Falsch! Die richtige Antwort war {result}.')
+        print(f"Falsch! Die richtige Antwort war {result}.")
         lives -= 1
     
     return lives, coins
@@ -165,28 +165,28 @@ def math_problems(lives, coins, klasse, difficulty):
 def games(user_data):
     clear_console()
     if user_data['coins'] < 5:
-        print('Nicht genug Münzen, um zu spielen.')
+        print("Nicht genug Münzen, um zu spielen.")
         menu(user_data)
     else:
-        print('Was möchtest du spielen?')
-        print('1. Tic Tac Toe')
-        print('2. Noch ein Spiel')
-        print('3. Zurück')
+        print("Was möchtest du spielen?")
+        print("1. Tic Tac Toe")
+        print("2. Noch ein Spiel")
+        print("3. Zurück")
 
         choice = input()
         print()
 
         if choice == '1':
-            print('Viel Spaß!')
+            print("Viel Spaß!")
             user_data['coins'] -= 5
             clear_console()
-            print(f'Du hast jetzt noch {user_data["coins"]} Münzen!')
+            print(f"Du hast jetzt noch {user_data['coins']} Münzen!")
             time.sleep(2)
             game_1(user_data)
         
         elif choice == '2':
             clear_console()
-            print('Spiel ist noch in Arbeit...')
+            print("Spiel ist noch in Arbeit...")
             time.sleep(3)
             menu(user_data)
 
@@ -195,7 +195,7 @@ def games(user_data):
             menu(user_data)
         
         else:
-            print('Ungültige Eingabe.')
+            print("Ungültige Eingabe.")
             time.sleep(1)
             games(user_data)
 
@@ -268,7 +268,7 @@ def game_1(user_data):
         print_board()
 
         if (winner := check_winner()) is not None:
-            print(f"Der Bot hat gewonnen! {winner} gewinnt.")
+            print(f"Der Bot hat gewonnen! {winner} hat gewonnen!")
             time.sleep(2)
             menu(user_data)
             break
@@ -277,9 +277,6 @@ def game_1(user_data):
             time.sleep(2)
             menu(user_data)
             break
-
-    time.sleep(2)
-    menu(user_data)
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
