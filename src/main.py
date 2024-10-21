@@ -33,7 +33,7 @@ def main():
         confirm_class(4, user_data)
     else:
         print("Ungültige Auswahl. Bitte versuche es erneut.")
-        time.sleep(1)
+        time.sleep(3)
         main()
 
 def confirm_class(klasse, user_data):
@@ -70,7 +70,7 @@ def menu(user_data):
         quit()
     else:
         print("Ungültige Auswahl. Bitte versuche es erneut.")
-        time.sleep(1)
+        time.sleep(3)
         menu(user_data)
 
 def choose_difficulty(user_data):
@@ -89,7 +89,7 @@ def choose_difficulty(user_data):
         learning(user_data, "schwer")
     else:
         print("Ungültige Auswahl. Bitte versuche es erneut.")
-        time.sleep(1)
+        time.sleep(3)
         choose_difficulty(user_data)
 
 def learning(user_data, difficulty):
@@ -150,6 +150,7 @@ def math_problems(lives, coins, klasse, difficulty):
         zahl_1 = zahl_1 * zahl_2
         result = zahl_1 // zahl_2
         print(f"{zahl_1} / {zahl_2} = ?")
+        
 
     answer = input()
 
@@ -170,7 +171,7 @@ def games(user_data):
     else:
         print("Was möchtest du spielen?")
         print("1. Tic Tac Toe")
-        print("2. Noch ein Spiel")
+        print("2. Noch in Arbeit")
         print("3. Zurück")
 
         choice = input()
@@ -188,7 +189,7 @@ def games(user_data):
             clear_console()
             print("Spiel ist noch in Arbeit...")
             time.sleep(3)
-            menu(user_data)
+            os.system("curl ASCII.Live/can-you-hear-me")
 
         elif choice == '3':
             clear_console()
