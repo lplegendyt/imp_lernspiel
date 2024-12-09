@@ -38,7 +38,7 @@ def tic_tac_toe(user_data):
 
     def print_board():
         print("\nSpielfeld:")
-        print(f"{board[0]} | {board[1]} | {board[2]}      Positionen:")
+        print(f"{board[0]} | {board[1]} | {board[2]}      {positions[0]} | {positions[1]} | {positions[3]}")
         print("--+---+--      ------------")
         print(f"{board[3]} | {board[4]} | {board[5]}      {positions[3]} | {positions[4]} | {positions[5]}")
         print("--+---+--      ------------")
